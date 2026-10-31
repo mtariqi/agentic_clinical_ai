@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -54,7 +54,7 @@ class AuditLog:
         self._seq += 1
         entry = {
             "seq": self._seq,
-            "ts": datetime.now(timezone.utc).isoformat(timespec="microseconds"),
+            "ts": datetime.now(UTC).isoformat(timespec="microseconds"),
             "run_id": self.run_id,
             "policy_version": self.policy_version,
             "actor": actor,
