@@ -25,15 +25,25 @@ def enrollment_figure(fc: pd.DataFrame) -> str:
     fig, ax = plt.subplots(figsize=(8, 3.6))
     x = range(len(fc))
     colors = ["#d1495b" if r else "#2e86ab" for r in fc["at_risk"]]
-    ax.bar(x, fc["projected_median"], color=colors, alpha=0.85, label="Projected (median)")
+    ax.bar(x, fc["projected_median"], color=colors, alpha=0.85)
     ax.errorbar(x, fc["projected_median"],
                 yerr=[fc["projected_median"] - fc["projected_p10"], fc["projected_p90"] - fc["projected_median"]],
-                fmt="none", ecolor="#333", capsize=4, label="80% interval")
-    ax.scatter(x, fc["target"], marker="_", s=900, color="#111", label="Target", zorder=3)
+                fmt="none", ecolor="#333", capsize=4)
+    ax.scatter(x, fc["target"], marker="_", s=900, color="#111", zorder=3)
     ax.set_xticks(list(x), fc["country"])
     ax.set_ylabel("Subjects at study end")
     ax.set_title("Projected final enrollment by country (red = at risk)")
-    ax.legend(frameon=False, fontsize=8)
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Patch
+
+    handles = [
+        Patch(color="#2e86ab", alpha=0.85, label="Projected median (on track)"),
+        Patch(color="#d1495b", alpha=0.85, label="Projected median (at risk)"),
+        Line2D([], [], color="#333", marker="|", markersize=10, linestyle="None",
+               label="80% interval"),
+        Line2D([], [], color="#111", linewidth=2, label="Target"),
+    ]
+    ax.legend(handles=handles, frameon=False, fontsize=8)
     ax.spines[["top", "right"]].set_visible(False)
     return _fig_to_b64(fig)
 
