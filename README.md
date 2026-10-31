@@ -77,7 +77,7 @@ python -m agentic_clinical.cli decide --agentsdir results/demo/agents --datadir 
     --index 2 --decision approve --approver "Dr. J. Smith (Study Lead)" --reason "Capacity confirmed"
 ```
 
-Decisions are attributed to `human:<name>` and appended to the same hash chain; approved actions are staged to the outbox.
+Decisions are attributed to `human:<name>` and appended to the same hash chain; approved actions are staged to the outbox. They are also stored in institutional memory: in later runs, a request you rejected, or an identical request you already approved, is not queued again for `agents.decision_memory_days` (default 14). It is listed as "already decided" in the report instead.
 
 ### LLM planning (optional)
 

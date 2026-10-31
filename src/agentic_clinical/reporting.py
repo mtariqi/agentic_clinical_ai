@@ -111,7 +111,9 @@ img{max-width:100%;background:#fff;border-radius:8px}code{font-size:12px}
 
 <h2>4 · Agent actions</h2>
 {% for res in results %}<h3>{{ res.agent_id }} <span class="muted">· planner {{ res.planner }}</span></h3>
-<p>Executed {{ res.executed|length }} · pending approval {{ res.pending_approval|length }} · denied {{ res.denied|length }} · failed {{ res.failed|length }} · deferred {{ res.deferred|length }}{% if res.circuit_breaker_tripped %} · <span class="bad">circuit breaker tripped</span>{% endif %}</p>
+<p>Executed {{ res.executed|length }} · pending approval {{ res.pending_approval|length }} · already decided {{ (res.suppressed or [])|length }} · denied {{ res.denied|length }} · failed {{ res.failed|length }} · deferred {{ res.deferred|length }}{% if res.circuit_breaker_tripped %} · <span class="bad">circuit breaker tripped</span>{% endif %}</p>
+{% if res.suppressed %}<div class="scroll"><table><tr><th>Already decided by a human</th><th>Entity</th><th>Arguments</th><th>Prior decision</th></tr>
+{% for a in res.suppressed %}<tr><td>{{ a.tool }}</td><td>{{ a.entity }}</td><td><code>{{ a.args }}</code></td><td>{{ a.reason }}</td></tr>{% endfor %}</table></div>{% endif %}
 {% if res.pending_approval %}<div class="scroll"><table><tr><th>Pending approval</th><th>Entity</th><th>Arguments</th><th>Rationale</th><th>Why gated</th></tr>
 {% for a in res.pending_approval %}<tr><td>{{ a.tool }}</td><td>{{ a.entity }}</td><td><code>{{ a.args }}</code></td><td>{{ a.rationale }}</td><td>{{ a.reason }}</td></tr>{% endfor %}</table></div>{% endif %}
 {% endfor %}

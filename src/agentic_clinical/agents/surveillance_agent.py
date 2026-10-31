@@ -76,7 +76,8 @@ class SurveillanceAgent(Agent):
                     rationale=f"Composite risk {s['risk_score']:.2f} (high tier); verify source data "
                               f"for: {kris}.{note}",
                     entity=sid, severity="high", confidence=s["risk_score"],
-                    evidence={"risk_score": s["risk_score"], "flags": [f["kri"] for f in s["flags"]]}))
+                    evidence={"risk_score": s["risk_score"], "flags": [f["kri"] for f in s["flags"]],
+                              "persistent": persistent}))
             elif s["risk_tier"] == "medium" and not s["flags"]:
                 acts.append(ProposedAction(
                     "notify_study_team",
