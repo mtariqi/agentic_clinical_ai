@@ -7,7 +7,7 @@ name = "agentic-clinical"
 version = "0.1.0"
 description = "Governed agentic AI for clinical data surveillance and enrollment intelligence, orchestrated with Snakemake"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
   "numpy>=1.26",
   "pandas>=2.1",
@@ -34,4 +34,4 @@ addopts = "-q"
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
