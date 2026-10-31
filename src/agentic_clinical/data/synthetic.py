@@ -65,7 +65,7 @@ class StudyConfig:
     prompt_injection_records: int = 3
 
     @classmethod
-    def from_dict(cls, d: dict) -> "StudyConfig":
+    def from_dict(cls, d: dict) -> StudyConfig:
         d = dict(d)
         if "sites_per_country" in d:
             d["sites_per_country"] = tuple(d["sites_per_country"])
@@ -103,7 +103,7 @@ def generate_study(cfg: StudyConfig, seed: int = 42) -> tuple[dict[str, pd.DataF
     a = cfg.anomalies
     shock_countries = list(rng.choice(countries, size=a["competitor_shock_countries"], replace=False))
     shuffled = list(rng.permutation(sites["site_id"].to_numpy()))
-    take = lambda n: [shuffled.pop() for _ in range(n)]  # noqa: E731
+    take = lambda n: [shuffled.pop() for _ in range(n)]
     fabrication_sites = take(a["fabrication_sites"])
     high_query_sites = take(a["high_query_sites"])
     late_entry_sites = take(a["late_entry_sites"])

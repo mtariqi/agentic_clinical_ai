@@ -8,9 +8,9 @@ import io
 import matplotlib
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
-import pandas as pd  # noqa: E402
-from jinja2 import Template  # noqa: E402
+import matplotlib.pyplot as plt
+import pandas as pd
+from jinja2 import Template
 
 
 def _fig_to_b64(fig) -> str:
