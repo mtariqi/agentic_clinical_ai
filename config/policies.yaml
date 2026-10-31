@@ -1,0 +1,51 @@
+# =============================================================================
+# Agent governance policy (centralized guardrails)
+# =============================================================================
+# Every agent has its own identity with least-privilege tool access, an autonomy
+# level from the capability spectrum, and an action budget. The policy engine
+# enforces this file at runtime; agents cannot change it.
+#
+# Autonomy levels (capability spectrum):
+#   minimal      - human-led: agent may only RECOMMEND; every action is queued
+#   basic        - conditional independence: may execute LOW-risk tools
+#   intermediate - supervised initiation: may execute LOW + MEDIUM risk tools
+#   advanced     - may execute up to HIGH-risk tools
+#
+# Tools with risk "critical" ALWAYS require a named human approver,
+# whatever the agent's autonomy level.
+
+policy_version: "1.0.0"
+
+global:
+  max_consecutive_tool_errors: 3        # circuit breaker against cascading failures
+  block_on_prompt_injection: true       # quarantine untrusted text, never forward it
+  redact_pii_before_llm: true           # data-spillover protection
+  require_rationale: true               # every action must carry a rationale
+
+tools:
+  raise_data_query:                  { risk: low }
+  notify_study_team:                 { risk: low }
+  flag_site_for_review:              { risk: medium }
+  schedule_targeted_sdv:             { risk: medium }
+  recommend_enrollment_reallocation: { risk: high }
+  trigger_for_cause_audit:           { risk: critical }
+
+agents:
+  surveillance_agent:
+    description: "Clinical Data Surveillance - detects data-quality risk per site"
+    autonomy: intermediate
+    max_actions: 60
+    allowed_tools:
+      - raise_data_query
+      - notify_study_team
+      - flag_site_for_review
+      - schedule_targeted_sdv
+      - trigger_for_cause_audit
+
+  enrollment_agent:
+    description: "Predictive Enrollment Intelligence - forecasts shortfall risk"
+    autonomy: basic
+    max_actions: 30
+    allowed_tools:
+      - notify_study_team
+      - recommend_enrollment_reallocation

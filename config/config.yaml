@@ -1,0 +1,52 @@
+# =============================================================================
+# Agentic Clinical AI pipeline - run configuration
+# =============================================================================
+# All paths are relative to the repository root.
+
+run_id: "demo"            # outputs are written to results/<run_id>/...
+seed: 42                  # global seed -> reproducible synthetic data and models
+
+# --- Synthetic study (no real patient data is ever used) ---------------------
+study:
+  study_id: "SYN-001"
+  n_countries: 6
+  sites_per_country: [4, 9]       # min/max sites per country
+  target_enrollment: 600
+  study_weeks: 52
+  current_week: 30                # "today" in the simulated study
+  # Injected signals the agents should discover (ground truth for evaluation)
+  anomalies:
+    competitor_shock_countries: 2  # countries whose enrollment rate collapses
+    competitor_shock_week: 18
+    fabrication_sites: 2           # sites with implausibly low lab variance
+    high_query_sites: 2            # sites with poor data quality
+    late_entry_sites: 2            # sites with large data-entry lag
+  prompt_injection_records: 3      # adversarial free-text strings in site comments
+
+# --- Data science ------------------------------------------------------------
+enrollment:
+  recent_window_weeks: 6
+  n_simulations: 5000
+  shortfall_risk_threshold: 0.15   # flag a country when projected shortfall >= 15%
+
+surveillance:
+  robust_z_threshold: 3.0
+  shrinkage_k: 10                  # credibility weight n/(n+k) damps small-site noise
+  isolation_forest:
+    n_estimators: 300
+    contamination: 0.08
+
+# --- Agent runtime -----------------------------------------------------------
+agents:
+  policy_file: "config/policies.yaml"
+  # planner backend: "rules"     -> deterministic, default, no network needed
+  #                  "anthropic" -> LLM planning via Claude (needs ANTHROPIC_API_KEY);
+  #                                 LLM output is schema-checked and falls back to rules
+  planner: "rules"
+  llm:
+    model: "claude-sonnet-5-5"
+    max_tokens: 2000
+
+oversight:
+  max_review_items: 10             # human reviewers see at most N items per cycle
+  min_priority: 0.25               # below this, items go to the digest instead
