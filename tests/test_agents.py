@@ -1,5 +1,7 @@
 import json
 
+from conftest import make_context
+
 from agentic_clinical.agents.audit import verify_chain
 from agentic_clinical.agents.core import Planner, ProposedAction
 from agentic_clinical.agents.enrollment_agent import EnrollmentAgent
@@ -7,8 +9,6 @@ from agentic_clinical.agents.llm import parse_actions
 from agentic_clinical.agents.oversight import triage
 from agentic_clinical.agents.surveillance_agent import SurveillanceAgent
 from agentic_clinical.agents.tools import ToolError, ToolSpec
-
-from conftest import make_context
 
 
 def test_end_to_end_governed_run(tmp_path, study, model_outputs):

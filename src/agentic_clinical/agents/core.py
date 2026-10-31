@@ -47,7 +47,7 @@ class RunContext:
     audit: AuditLog
     memory: InstitutionalMemory
     approvals_path: Path
-    planner: "Planner"
+    planner: Planner
     data: dict[str, Any]             # model outputs and tables the agent may perceive
 
 
@@ -71,7 +71,7 @@ class Planner(ABC):
     name = "abstract"
 
     @abstractmethod
-    def plan(self, agent: "Agent", observation: dict, ctx: RunContext) -> list[ProposedAction]:
+    def plan(self, agent: Agent, observation: dict, ctx: RunContext) -> list[ProposedAction]:
         ...
 
 
@@ -79,7 +79,7 @@ class RulePlanner(Planner):
     """Deterministic, fully explainable planning using each agent's codified rules."""
     name = "rules"
 
-    def plan(self, agent: "Agent", observation: dict, ctx: RunContext) -> list[ProposedAction]:
+    def plan(self, agent: Agent, observation: dict, ctx: RunContext) -> list[ProposedAction]:
         return agent.rule_plan(observation, ctx)
 
 
@@ -158,7 +158,7 @@ class Agent(ABC):
         try:
             actions = ctx.planner.plan(self, observation, ctx)
             used = ctx.planner.name
-        except Exception as exc:  # LLM unavailable / malformed output -> deterministic fallback
+        except Exception as exc:  # noqa: BLE001 - any planner failure must fall back to rules
             ctx.audit.record(self.agent_id, "planner_fallback",
                              {"planner": ctx.planner.name, "error": f"{type(exc).__name__}: {exc}"})
             actions = self.rule_plan(observation, ctx)

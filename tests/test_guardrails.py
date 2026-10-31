@@ -1,11 +1,15 @@
 import pytest
+from conftest import POLICY_PATH
 
 from agentic_clinical.agents.guardrails import (
-    CircuitBreaker, Policy, PolicyEngine, Verdict, redact_pii, screen_text,
+    CircuitBreaker,
+    Policy,
+    PolicyEngine,
+    Verdict,
+    redact_pii,
+    screen_text,
 )
 from agentic_clinical.data.synthetic import BENIGN_COMMENTS, INJECTION_COMMENTS
-
-from conftest import POLICY_PATH
 
 
 @pytest.mark.parametrize("text", INJECTION_COMMENTS)

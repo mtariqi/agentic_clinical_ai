@@ -76,7 +76,7 @@ class Policy:
     agents: dict[str, AgentIdentity]
 
     @classmethod
-    def load(cls, path: str | Path) -> "Policy":
+    def load(cls, path: str | Path) -> Policy:
         raw = yaml.safe_load(Path(path).read_text())
         g = raw.get("global", {})
         tool_risk = {name: Risk[spec["risk"].upper()] for name, spec in raw["tools"].items()}

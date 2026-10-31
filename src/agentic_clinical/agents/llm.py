@@ -53,7 +53,7 @@ def parse_actions(text: str, ctx: RunContext, allowed: frozenset[str]) -> tuple[
     cleaned = re.sub(r"^```(?:json)?|```$", "", text.strip(), flags=re.MULTILINE).strip()
     data = json.loads(cleaned)
     if not isinstance(data, dict) or not isinstance(data.get("actions"), list):
-        raise ValueError("LLM output must be an object with an 'actions' list")
+        raise TypeError("LLM output must be an object with an 'actions' list")
     actions, rejected = [], []
     for i, raw in enumerate(data["actions"]):
         try:

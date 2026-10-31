@@ -11,9 +11,10 @@ from __future__ import annotations
 
 import json
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 ArgSchema = dict[str, type | tuple[type, ...]]
 
@@ -65,7 +66,7 @@ class Outbox:
 
 
 class ToolRegistry:
-    SEVERITIES = {"low", "medium", "high"}
+    SEVERITIES = frozenset({"low", "medium", "high"})
 
     def __init__(self, outbox: Outbox, known_sites: set[str], known_countries: set[str]):
         self.outbox = outbox
