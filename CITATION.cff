@@ -5,6 +5,7 @@ title: "Agentic Clinical AI: governed agentic AI for clinical data surveillance 
 version: 0.1.0
 date-released: "2026-10-31"
 license: MIT
+doi: 10.5281/zenodo.23851413
 repository-code: "https://github.com/mtariqi/agentic_clinical_ai"
 authors:
   - family-names: Islam

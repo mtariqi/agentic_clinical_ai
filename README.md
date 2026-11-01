@@ -1,5 +1,7 @@
 # Agentic Clinical AI
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23851413.svg)](https://doi.org/10.5281/zenodo.23851413)
+
 Governed, auditable AI agents for **clinical data surveillance** and **predictive enrollment intelligence**, orchestrated end-to-end with **Snakemake**.
 
 The project is a working reference implementation of the principles in *Understanding Agentic AI in Clinical Development — From Automation to Autonomy, Part 1* (Syneos Health Insights Hub, 2026): bounded autonomy, guardrails by design, traceability, least-privilege agent identities, human approval for high-impact actions, an oversight meta-agent against alert fatigue, and institutional memory across runs.
