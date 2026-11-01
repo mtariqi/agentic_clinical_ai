@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Agentic Clinical AI: governed agentic AI for clinical data surveillance and enrollment forecasting"
+version: 0.1.0
+date-released: "2026-10-31"
+license: MIT
+repository-code: "https://github.com/mtariqi/agentic_clinical_ai"
+authors:
+  - family-names: Islam
+    given-names: Md Tariqul
+abstract: >-
+  A reproducible Snakemake reference pipeline in which two AI agents (clinical
+  data surveillance and predictive enrollment intelligence) act on statistical
+  findings through a shared governance runtime: least-privilege identities,
+  risk-tiered tools gated by autonomy level, a human approval queue, input
+  screening, PII redaction, a circuit breaker, a hash-chained audit log, an
+  oversight meta-agent and institutional memory of human decisions. Evaluated
+  on synthetic multi-country trials with injected ground truth. Not a
+  validated GxP system.
+keywords:
+  - agentic AI
+  - clinical trials
+  - risk-based quality management
+  - central statistical monitoring
+  - enrollment forecasting
+  - human oversight
+  - audit trail
+  - ALCOA++
+  - prompt injection
+  - Snakemake
