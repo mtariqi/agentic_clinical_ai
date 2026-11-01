@@ -119,6 +119,7 @@ def cmd_agents(a) -> None:
         data={"site_scores": _read_scores(a.scores),
               "enrollment_forecast": pd.read_csv(a.forecast),
               "site_comments": pd.read_csv(Path(a.datadir) / "site_comments.csv")},
+        decision_ttl_days=float(cfg["agents"].get("decision_memory_days", 14)),
     )
     agents = [SurveillanceAgent(z_threshold=cfg["surveillance"]["robust_z_threshold"]), EnrollmentAgent()]
     results = []
@@ -182,8 +183,13 @@ def cmd_report(a) -> None:
 
 
 def cmd_decide(a) -> None:
-    """Human-in-the-loop: approve or reject a queued action, signed into the audit chain."""
+    """Human-in-the-loop: approve or reject a queued action, signed into the audit chain.
+
+    The decision is also stored in institutional memory, so future runs do not ask
+    again for a request that was rejected, or for an identical one already approved.
+    """
     from agentic_clinical.agents.audit import AuditLog, read_log, verify_chain
+    from agentic_clinical.agents.memory import InstitutionalMemory
     from agentic_clinical.agents.tools import Outbox, ToolRegistry
 
     agdir = Path(a.agentsdir)
@@ -221,6 +227,9 @@ def cmd_decide(a) -> None:
     audit.record(actor, f"human_{a.decision}", record)
     with open(decisions_path, "a") as fh:
         fh.write(json.dumps(record) + "\n")
+    InstitutionalMemory(a.memory).record_decision(
+        entity=item["entity"], tool=item["tool"], args=item["args"], decision=a.decision,
+        approver=a.approver, reason=a.reason, run_id=first["run_id"])
     print(f"{'approved' if a.decision == 'approve' else 'rejected'} action {i} ({item['tool']}) as {actor}")
 
 
@@ -252,6 +261,8 @@ def build_parser() -> argparse.ArgumentParser:
     dp.add_argument("--decision", choices=["approve", "reject"])
     dp.add_argument("--approver")
     dp.add_argument("--reason")
+    dp.add_argument("--memory", default="results/memory/institutional_memory.json",
+                    help="institutional memory file shared across runs")
     dp.set_defaults(func=cmd_decide)
     add("report", cmd_report, "config", "policy", "truth", "scores", "forecast", "results", "triage",
         "audit", "metrics", "validation", "out")

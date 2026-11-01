@@ -41,6 +41,7 @@ class EnrollmentAgent(Agent):
             persistent = obs["memory"].get(cc, 0) > 0
             ev = {k: c[k] for k in ("rate_ratio", "rate_drop_pvalue", "p_miss_target",
                                     "projected_shortfall", "projected_median", "target")}
+            ev["persistent"] = persistent
             if c["at_risk"]:
                 acts.append(ProposedAction(
                     "notify_study_team",

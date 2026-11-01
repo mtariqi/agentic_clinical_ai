@@ -43,6 +43,7 @@ agents:
   #                  "anthropic" -> LLM planning via Claude (needs ANTHROPIC_API_KEY);
   #                                 LLM output is schema-checked and falls back to rules
   planner: "rules"
+  decision_memory_days: 14         # honour a human approve/reject decision for this long
   llm:
     model: "claude-sonnet-5-5"
     max_tokens: 2000

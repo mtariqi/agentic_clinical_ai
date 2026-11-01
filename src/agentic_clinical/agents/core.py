@@ -49,6 +49,7 @@ class RunContext:
     approvals_path: Path
     planner: Planner
     data: dict[str, Any]             # model outputs and tables the agent may perceive
+    decision_ttl_days: float = 14.0  # how long a human approve/reject decision is honoured
 
 
 @dataclass
@@ -61,6 +62,7 @@ class AgentRunResult:
     failed: list[dict] = field(default_factory=list)
     deferred: list[dict] = field(default_factory=list)
     quarantined: list[dict] = field(default_factory=list)
+    suppressed: list[dict] = field(default_factory=list)   # already decided by a human
     circuit_breaker_tripped: bool = False
 
     def summary(self) -> dict:
@@ -195,6 +197,16 @@ class Agent(ABC):
             ctx.audit.record(self.agent_id, "action_denied", rec)
             return
         if decision.verdict == Verdict.REQUIRE_APPROVAL:
+            prior = ctx.memory.find_decision(a.entity, a.tool, a.args, ctx.decision_ttl_days)
+            if prior is not None:
+                verb = "approved" if prior["decision"] == "approve" else "rejected"
+                rec = self._as_record(
+                    a, prior_decision=prior,
+                    reason=f"already {verb} by {prior['approver']} in run {prior['run_id']}: "
+                           f"{prior['reason']}")
+                result.suppressed.append(rec)
+                ctx.audit.record(self.agent_id, "approval_suppressed_by_memory", rec)
+                return
             rec = self._as_record(a, reason=decision.reason, status="pending_approval",
                                   requested_by=self.agent_id, run_id=ctx.run_id)
             with open(ctx.approvals_path, "a") as fh:
