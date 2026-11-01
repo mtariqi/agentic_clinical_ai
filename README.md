@@ -1,6 +1,20 @@
-# Agentic Clinical AI
+<p align="center">
+  <img src="docs/assets/banner.svg" alt="Agentic Clinical AI: governed agents for clinical data surveillance and enrollment forecasting" width="100%">
+</p>
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23851413.svg)](https://doi.org/10.5281/zenodo.23851413)
+<p align="center">
+  <a href="https://github.com/mtariqi/agentic_clinical_ai/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/mtariqi/agentic_clinical_ai/actions/workflows/ci.yml/badge.svg?branch=main"></a>
+  <a href="https://doi.org/10.5281/zenodo.23851413"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.23851413.svg"></a>
+  <a href="https://github.com/mtariqi/agentic_clinical_ai/releases"><img alt="Release" src="https://img.shields.io/github/v/release/mtariqi/agentic_clinical_ai?color=1F5F6B"></a>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-1F5F6B"></a>
+  <br>
+  <img alt="Python 3.11 | 3.12" src="https://img.shields.io/badge/python-3.11%20%7C%203.12-3776AB?logo=python&amp;logoColor=white">
+  <a href="https://snakemake.github.io"><img alt="Snakemake 8+" src="https://img.shields.io/badge/snakemake-%E2%89%A58.0-039475"></a>
+  <a href="https://github.com/astral-sh/ruff"><img alt="Ruff" src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json"></a>
+  <img alt="Tests: pytest" src="https://img.shields.io/badge/tests-pytest-0A9EDC?logo=pytest&amp;logoColor=white">
+  <img alt="Data: 100% synthetic" src="https://img.shields.io/badge/data-100%25%20synthetic-6F5AA8">
+  <img alt="GxP: not validated" src="https://img.shields.io/badge/GxP-not%20validated-B23A48">
+</p>
 
 Governed, auditable AI agents for **clinical data surveillance** and **predictive enrollment intelligence**, orchestrated end-to-end with **Snakemake**.
 
