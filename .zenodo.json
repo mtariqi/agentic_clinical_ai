@@ -1,0 +1,18 @@
+{
+  "title": "Agentic Clinical AI: governed agentic AI for clinical data surveillance and enrollment forecasting",
+  "upload_type": "software",
+  "version": "0.1.0",
+  "license": "MIT",
+  "creators": [
+    { "name": "Islam, Md Tariqul" }
+  ],
+  "description": "<p>A reproducible Snakemake reference pipeline in which two AI agents (clinical data surveillance and predictive enrollment intelligence) act on statistical findings through a shared governance runtime: least-privilege identities, risk-tiered tools gated by autonomy level, a human approval queue, input screening, PII redaction, a circuit breaker, a hash-chained audit log, an oversight meta-agent and institutional memory of human decisions.</p><p>Site risk is scored with credibility-weighted robust z-scores and an Isolation Forest; country enrollment is forecast with a Poisson-Gamma Monte Carlo model. The system is evaluated on synthetic multi-country trials with injected ground-truth problems. All data are synthetic.</p><p>This is a reference implementation and not a validated GxP system. It implements principles described in the Syneos Health white paper 'Understanding Agentic AI in Clinical Development - From Automation to Autonomy: Part 1' (2026); it is independent and not affiliated with or endorsed by Syneos Health. The software was developed with the assistance of an AI model (Claude, Anthropic) under the author's direction.</p>",
+  "keywords": [
+    "agentic AI", "clinical trials", "risk-based quality management",
+    "central statistical monitoring", "enrollment forecasting", "human oversight",
+    "audit trail", "ALCOA++", "prompt injection", "Snakemake"
+  ],
+  "related_identifiers": [
+    { "identifier": "https://github.com/mtariqi/agentic_clinical_ai", "relation": "isSupplementTo", "scheme": "url" }
+  ]
+}
